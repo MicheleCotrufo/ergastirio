@@ -1,0 +1,18 @@
+self.settings = {
+        "General_Settings": {
+                    "time_interval_internal_trigger": 0.2,              #in s. Refresh time of internal trigger (when used)
+                    "numb_acquisitions_per_set": 1,                     #Every time that a trigger is "fired" (either by internal trigger, or by external trigger, or by clicking on 'take single acqusitions') 
+                    "time_interval_multiple_acquisitions_per_set": 0.2, #the software takes a number of acquisitions, equal to numb_acquisitions_per_set, and separated in time by time_interval_multiple_acquisitions_per_set
+                    "average_acquisition": 0,                           #When this is set to true, after taking a number of acquisitions (numb_acquisitions_per_set), it averages them and replace them by the average
+                    
+                    "trigger_modality": 'internal',                     # can be either 'internal' or 'external'
+                    "make_average_set_acquisitions": False,                              #0 -> No Average, 1 -> Make Average
+                    
+                    },
+        "Instruments_Settings": {
+                    "instruments": [],
+                    "PostProcessedData" : {},
+                    "trigger_instrument" : 0,
+                    "trigger_delay": 0
+                    }
+        }
