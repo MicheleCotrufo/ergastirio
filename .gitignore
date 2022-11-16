@@ -1,6 +1,6 @@
 /env/
 /.venv/
-/.vs/
+\.vs
 /build/
 /tests/
 /test*
