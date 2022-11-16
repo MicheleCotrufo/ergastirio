@@ -9,7 +9,7 @@ with open("requirements.txt") as f:
     required_packages = f.read().splitlines()
 
 setuptools.setup(name='ergastirio',
-      version='0.23',
+      version='0.24',
       description='A python GUI connect several devices and automatize acquisition data in lab.',
       long_description=long_description,
       long_description_content_type='text/markdown',
