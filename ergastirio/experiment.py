@@ -157,7 +157,7 @@ class experiment(QtCore.QObject):
             self.virtual_modality = False
         self.func_logger_handler_adder = func_logger_handler_adder
         self.func_logger_handler_adder(logger=logging.getLogger(self.name_logger)) #Having this here is kind of ugly because it partially breaks the model-view philosophy; on the other hand it allows catching the logs immediately
-        self.config_file = config_file #Setting the config file name will also automatically open the file and load the settings (see @config_file.setter) 
+        self.config_file = config_file 
         self.load_settings()
         self.logger.info(f"Initializing the experiment...")
         return ergastirio.experiment_initializer.set_up_experiment(self)
