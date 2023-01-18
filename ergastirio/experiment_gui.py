@@ -71,7 +71,8 @@ class experiment_gui():
 
             self.exp.instruments[i]['frame'].setTitle(f"{self.exp.instruments[i]['name']} ({self.exp.instruments[i]['type']} v{version(self.exp.instruments[i]['type'])})")
         
-            self.exp.instruments[i]['device_module'].gui(interface = self.exp.instruments[i]['interface'],parent=self.exp.instruments[i]['frame'])
+            self.exp.instruments[i]['gui'] = self.exp.instruments[i]['device_module'].gui(interface = self.exp.instruments[i]['interface'],parent=self.exp.instruments[i]['frame'])
+
             self.exp.instruments[i]['frame'].resize(self.exp.instruments[i]['frame'].sizeHint())
             box.addWidget(self.exp.instruments[i]['frame'] )
         box.addStretch(1)
