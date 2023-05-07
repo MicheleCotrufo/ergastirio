@@ -80,23 +80,23 @@ class experiment(QtCore.QObject):
     """
 
     ## SIGNALS THAT WILL BE USED TO COMMUNICATE WITH THE GUI
-    #                                                               | Triggered when ...                                        | Sends as parameter    
-    #                                                         #     -----------------------------------------------------------------------------------------------------------------------         
-    sig_single_set_acquisition = QtCore.pyqtSignal(int)       #     |                                                           |     
-    sig_triggered_acquisition = QtCore.pyqtSignal(int)        #     |                                                           |  
+    #                                                                           | Triggered when ...                                        | Sends as parameter    
+    #                                                         #                 -----------------------------------------------------------------------------------------------------------------------         
+    sig_single_set_acquisition = QtCore.pyqtSignal(int)                        #|                                                           |     
+    sig_triggered_acquisition = QtCore.pyqtSignal(int)                         #|                                                           |  
     sig_trigger_modality = QtCore.pyqtSignal(str) 
     sig_trigger_instrument = QtCore.pyqtSignal(int)
     sig_trigger_instrument_delay = QtCore.pyqtSignal(float) 
     sig_list_instruments = QtCore.pyqtSignal(list) 
-    sig_list_ramps = QtCore.pyqtSignal(list)                  # Sends list of all ramps defined in all instruments. The format is [ [id_instrument, fullname_instrument, ramp_object, index_ramp_child], [...] ... ] 
+    sig_list_ramps = QtCore.pyqtSignal(list)                                   #|                                                           | List of all ramps defined in all instruments. The format is [ [id_instrument, fullname_instrument, ramp_object, index_ramp_child], [...] ... ] 
     sig_time_interval_internal_trigger = QtCore.pyqtSignal(float) 
     sig_time_interval_multiple_acquisitions_per_set = QtCore.pyqtSignal(float) 
     sig_numb_acquisitions_per_set = QtCore.pyqtSignal(int) 
     sig_make_average_set_acquisition = QtCore.pyqtSignal(int) 
-    sig_data_updated = QtCore.pyqtSignal(int)                   # Fired when a generic data update has happened 
-    sig_data_updated_added_new_rows = QtCore.pyqtSignal(int)    # Fired when a certain number of rows has been appended to the data. It sends the number of appended rows as argument
-    sig_data_updated_deleted_all_data = QtCore.pyqtSignal(int)  # Fired with all data has been deleted
-    sig_data_updated_deleted_last_rows = QtCore.pyqtSignal(int) # Fired when a certain number of rows has been deleted to the data. It sends the number of deleted rows as argument
+    sig_data_updated = QtCore.pyqtSignal(int)                                  #| A generic data update has happened                        |
+    sig_data_updated_added_new_rows = QtCore.pyqtSignal(int)                   #| A certain number of rows has been appended to the data    | Number of appended rows
+    sig_data_updated_deleted_all_data = QtCore.pyqtSignal(int)                 #| All data has been deleted                                 |
+    sig_data_updated_deleted_last_rows = QtCore.pyqtSignal(int)                #| A certain number of rows has been deleted from the data   | Number of deleted rows 
     
     
     

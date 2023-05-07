@@ -1,9 +1,7 @@
-
 import PyQt5.QtWidgets as Qt
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import logging
-
 
 '''
 The next two widgets (QTextEditLogger and LoggerTextArea) are used to create a textarea which also acts as handler for the logger objects created by the logging module
