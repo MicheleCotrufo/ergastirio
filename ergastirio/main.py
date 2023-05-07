@@ -92,8 +92,9 @@ class MainWindow(Qt.QMainWindow):
                     'instruments':{'title':'Instruments'},
                     'plots':{'title':'Plots'}
                       }
-    _mdi_advanced_panels ={ 'connect_ramps':{'title':'Connect Ramps'}
-                    }
+    _mdi_advanced_panels ={ 'connect_ramps':{'title':'Connect Ramps'},
+                           'status_selector':{'title':'Status Selector'}
+    }
 
     def __init__(self):
         super().__init__()
@@ -149,6 +150,7 @@ class MainWindow(Qt.QMainWindow):
 
         advanced = bar.addMenu("Advanced")
         advanced.addAction("Connect Ramps")
+        advanced.addAction("Status Selector")
         advanced.triggered[Qt.QAction].connect(self.action_showhide)
         
         # Store mdi_basic_panels and mdi_advanced_panels as attributes of the window object
@@ -162,6 +164,11 @@ class MainWindow(Qt.QMainWindow):
         self.logging_text_area = ergastirio.logger.LoggerTextArea()
         box.addWidget(self.logging_text_area)
         self.basic_panels['logging']['container'].setLayout(box)
+        
+        # Set properties of specific panels
+        #self.basic_panels['instruments']['scrollarea'].horizontalScrollBar().setEnabled(False)
+        #self.basic_panels['instruments']['scrollarea'].setAutoScroll(False)
+        #self.basic_panels['instruments']['scrollarea'].setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
     def action_view(self, p):
         for k in self._views.keys():

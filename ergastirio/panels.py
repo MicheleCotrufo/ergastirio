@@ -16,6 +16,142 @@ They do not have their own logger, and they do not produce any logging event. Ra
 of the experiment object via PyQt5 signals
 '''
 
+
+############################################################################################################
+## status_selector                                                                                        # 
+############################################################################################################
+
+class status_selector():
+
+    def __init__(self, parent, experiment):
+        # parent        = a QWidget (or QMainWindow) object that will be the parent of this gui
+        # experiment    = an experiment() object, whose acquisition will be controlled by this panel
+
+        self.parent = parent
+        self.experiment  = experiment 
+
+        ### Connect signals from model to event slots of this GUI
+        #self.experiment.sig_list_ramps.connect(self.on_list_ramps_updated)
+        #self.experiment.sig_single_set_acquisition.connect(self.on_single_set_acquisition_change)
+        #self.experiment.sig_triggered_acquisition.connect(self.on_triggered_acquisition_change)
+        #self.experiment.sig_trigger_modality.connect(self.on_trigger_modality_change)
+        #self.experiment.sig_trigger_instrument.connect(self.on_trigger_instrument_change)
+        #self.experiment.sig_time_interval_internal_trigger.connect(self.on_time_inteval_internal_trigger_change)
+        #self.experiment.sig_time_interval_multiple_acquisitions_per_set.connect(self.on_time_interval_multiple_acquisitions_per_set_change)
+        #self.experiment.sig_numb_acquisitions_per_set.connect(self.on_numb_acquisitions_per_trigger_change)
+        #self.experiment.sig_make_average_set_acquisition.connect(self.on_change_make_average_set_acquisition)
+        self.experiment.sig_list_instruments.connect(self.on_list_instruments_updated)
+        #self.experiment.sig_trigger_instrument.connect(self.on_trigger_instrument_changed)
+        #self.experiment.sig_trigger_instrument_delay.connect(self.on_trigger_delay_changed)
+
+        #self.doing_triggered_acquisition = False    # Flag used to keep track a triggered acquisition is being performed. If this is true, some widget will not be re-enabled when self.experiment.SIG_SINGLE_SET_ACQUISITION_ENDED is sent
+        #                                            # but only when self.experiment.SIG_TRIGGERED_ACQUISITION_ENDED is sent
+
+    def create_gui(self): 
+        self.create_widgets()
+        self.connect_widgets_events_to_functions()
+
+    def create_widgets(self):
+        """
+        - hbox                                          (QHBoxLayout)
+
+        """
+
+        self.vbox = Qt.QVBoxLayout()
+        self.label_Info = Qt.QLabel("This panal allows to create experiment 'states', defined as list of properties of one or more instruments and their values." \
+                                     "Once a state is defined, it can be quickly re-created by double clicking on it. " \
+                                     "This will automatically set the values of all the properties.")
+        self.label_Info.setWordWrap(True) 
+        self.tableRamps = Qt.QTableWidget()
+        self.tableRamps.setColumnCount(3)
+        self.tableRamps.setHorizontalHeaderLabels(["Instrument","Property","Value"])
+        header = self.tableRamps.horizontalHeader()
+        header.setSectionResizeMode(Qt.QHeaderView.ResizeToContents)       
+        #header.setSectionResizeMode(0, Qt.QHeaderView.Stretch)
+        self.vbox.addWidget(self.label_Info)
+        self.vbox.addWidget(self.tableRamps)
+
+        ### Assign the layout hbox to the widget defined in self.parent
+        self.parent.setLayout(self.vbox) 
+        self.parent.resize(self.parent.minimumSize())
+
+        
+        return
+    
+    def connect_widgets_events_to_functions(self):
+        ### Connect Widget Events to Event Functions
+        if hasattr(self,'list_combo_ramps'):
+            for index,combo_box in enumerate(self.list_combo_ramps):
+                self.list_combo_ramps[index].currentIndexChanged.connect(lambda index_newvalue, index=index : self.change_combo_ChildRamp(index_newvalue, index_combobox=index))
+        return self
+
+###########################################################################################################
+### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
+###########################################################################################################
+
+    def on_list_instruments_updated(self, list_instruments):
+        print(list_instruments)
+
+    def on_list_ramps_updated(self,list_ramps):
+        self.list_ramps = list_ramps #store for later use
+        self.tableRamps.clearContents()
+
+        # Create a list of ramps for the comboboxes 
+        combobox_items = []
+        for index,ramp in enumerate(list_ramps):
+            combobox_items.append(f"{str(ramp[1])} -> {str(id(ramp[2]))}")
+        combobox_items.append('None')
+
+        self.list_combo_ramps = [] #this will contain the combobox for each row of the table
+#
+        self.tableRamps.setRowCount(len(list_ramps)) 
+        for index,ramp in enumerate(list_ramps):
+            item0 = Qt.QTableWidgetItem(str(ramp[1]))
+            item1 = Qt.QTableWidgetItem(str(id(ramp[2])))
+            self.tableRamps.setItem(index,0,item0)
+            self.tableRamps.setItem(index,1,item1)
+            combo_ramps = Qt.QComboBox()
+            combo_ramps.addItems(combobox_items)
+            self.tableRamps.setCellWidget(index,2,combo_ramps)
+            self.list_combo_ramps.append(combo_ramps)
+            
+            #If the ramp corresponding to this row has child, we set the combobox to the corresponding child
+            if ramp[3] == -1:
+                combo_ramps.setCurrentIndex(len(combobox_items)-1) # This will initialize the combobox to 'None'
+            else:
+                combo_ramps.setCurrentIndex(ramp[3])
+
+        #populating the table with combobox will create new widgets, thus we need to call again connect_widgets_events_to_functions
+        self.connect_widgets_events_to_functions()
+
+
+#######################
+### END Event Slots ###
+#######################
+
+###################################################################################################################################################
+### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
+###################################################################################################################################################
+
+#    def change_combo_ChildRamp(self,index_newvalue,index_combobox):
+#        child_ramp_index = index_newvalue
+#        index_row = index_combobox
+#        if child_ramp_index ==  len(self.list_ramps): # This means that the value of the combobox is 'None'
+#            self.experiment.disconnect_ramp_from_child(self.list_ramps[index_row][0])
+#        else:
+#            self.experiment.connect_ramp_to_child(self.list_ramps[index_row][0],self.list_ramps[child_ramp_index][0])
+#        return
+
+
+#################################
+### END GUI Events Functions ####
+#################################
+
+############################################################################################################
+## END status_selector                                                                                     # 
+############################################################################################################
+
+
 ############################################################################################################
 ## ramp_connection                                                                                         # 
 ############################################################################################################
@@ -145,6 +281,10 @@ class ramp_connection():
 #################################
 ### END GUI Events Functions ####
 #################################
+
+############################################################################################################
+## END ramp_connection                                                                                     # 
+############################################################################################################
 
 ############################################################################################################
 ## acquisition_control                                                                                     # 
@@ -538,6 +678,9 @@ class acquisition_control():
 ### END GUI Events Functions ####
 #################################
 
+############################################################################################################
+## END acquisition_control                                                                                 # 
+############################################################################################################
 
 
 

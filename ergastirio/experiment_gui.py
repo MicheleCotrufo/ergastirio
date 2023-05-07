@@ -20,6 +20,8 @@ class experiment_gui():
 
     def set_up_experiment_gui(self):
         self.container_connectramps = self.parent.advanced_panels['connect_ramps']['container']
+        self.container_statusselector = self.parent.advanced_panels['status_selector']['container']
+        
         self.container_tabledata = self.parent.basic_panels['tabledata']['container']
         self.container_plots = self.parent.basic_panels['plots']['scrollarea']
         self.container_instruments = self.parent.basic_panels['instruments']['container']
@@ -31,7 +33,8 @@ class experiment_gui():
             return False
 
         self.create_gui_connectramps()
-
+        self.create_gui_statusselector()
+        
         self.link_data_to_gui()
 
         #if 'DefaultView' in exp.config.keys():
@@ -47,6 +50,15 @@ class experiment_gui():
         layout.addWidget(self.connectramps_panel_box)
         self.container_connectramps.setLayout(layout)
         self.connectramps_panel.create_gui()
+        
+    def create_gui_statusselector(self):
+        self.statusselector_panel_box = Qt.QGroupBox()
+        layout = Qt.QVBoxLayout()
+        self.statusselector_panel = ergastirio.panels.status_selector( parent = self.statusselector_panel_box,
+                                                                    experiment = self.exp)
+        layout.addWidget(self.statusselector_panel_box)
+        self.container_statusselector.setLayout(layout)
+        self.statusselector_panel.create_gui()
 
     def create_gui_instruments(self):
         '''
