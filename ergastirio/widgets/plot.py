@@ -17,11 +17,17 @@ class PlotObject:
     _data_headers =[]
     _data = []
     _data_error = []
-    _colors = 'bgrcmyw'
-    _styles = [pg.mkPen(c, width=2, style=QtCore.Qt.SolidLine) for c in _colors]
-    _symbol = 'o'
-    _style_labels = {"color": "#fff", "font-size": "20px"}
-    def __init__(self, parent, data_headers, plot_config):
+
+    def create_styles(self,colors = 'bgrcmyw',width = 1,symbol = 'o',style_labels = {"color": "#fff", "font-size": "20px"}):
+        self._colors = colors
+        self._width = width
+        self._symbol = symbol
+        self._style_labels = style_labels
+        self._styles = []
+        for c in self._colors:
+            self._styles.append(pg.mkPen(c, width=self._width , style=QtCore.Qt.SolidLine))
+
+    def __init__(self, parent, data_headers = None, plot_config = None):
         '''
         parent        = a QWidget (or QMainWindow) object that will be the parent for this plot
         data_headers
@@ -32,25 +38,41 @@ class PlotObject:
         self.parent = parent
         self._data_headers =[]
         self._data = []
-        self._data_error = []
-        self.data_headers = data_headers #Note: here we assume that data_headers do not already contain the "acq#" field. It will be added dynamically by counting the number of rows
-        self.plot_config = plot_config
+        self._data_error = []   
+        self._plot_config ={'x':'','y':[]}
+        self.show_legend = True
+
 
         self.Max = 0 #Keep track of the maximum of minimum values plotted in this plot (among all possible curves). It is used for resizing purposes
         self.Min = 0
 
+        self.MainContainer = Qt.QVBoxLayout()
+
         self.graphWidget = self.create_plot()
         self.controlWidget = self.create_controlPanel()
 
-        vbox = Qt.QVBoxLayout()
-        vbox.addWidget(self.graphWidget) 
-        vbox.addWidget(self.controlWidget) 
-        vbox.setSpacing(0)
+        if data_headers:
+            self.data_headers = data_headers #Note: here we assume that data_headers do not already contain the "acq#" field. It will be added dynamically by counting the number of rows
+        if plot_config:
+            self.plot_config = plot_config
+
+
+        self.MainContainer.addWidget(self.graphWidget) 
+        self.MainContainer.addWidget(self.controlWidget) 
+        self.MainContainer.setSpacing(0)
         #vbox.addStretch(1)
-        self.parent.setLayout(vbox)
+        self.parent.setLayout(self.MainContainer)
+        self.create_styles()
+        #self.refresh_plot()
+
+    @property
+    def plot_config(self):
+        return self._plot_config    
+    @plot_config.setter
+    def plot_config(self,p):
+        self._plot_config = p
         self.set_quantities_to_plot() #This will initialize axis and legend of the plot based on the current value of self.plot_config
-        self.refresh_plot()
-    
+
     @property
     def data_headers(self):
         return self._data_headers
@@ -61,6 +83,7 @@ class PlotObject:
         self._data_headers_full.insert(0,"acq#")
         self._data_headers_full_radiobuttons_x_axis =[] # these two lists will store the radiobuttons and checkbox used to decide which quantity is plotted 
         self._data_headers_full_checkboxs_y_axis =[]    # on x and y axis. Each element of self._data_headers_full is associated to one radiobutton and one checkbox
+        self.connect_widgets_to_headers()
 
     @property
     def data(self):
@@ -107,8 +130,7 @@ class PlotObject:
         w.toolButton_Y.setFixedSize( 30, 30)
 
         ### Connect widgets to functions
-        self.create_menu_XY(w.toolButton_X,w.toolButton_Y)
-        w.button_home.clicked.connect(self.reset_plot_view)
+        
         ###
 
         hbox.addWidget(w.button_home)
@@ -120,6 +142,11 @@ class PlotObject:
         hbox.setContentsMargins(0, 0, 0, 0)
         w.setLayout(hbox)
         return w
+
+    def connect_widgets_to_headers(self):
+        self.controlWidget.button_home.clicked.connect(self.reset_plot_view)
+        self.create_menu_XY(self.controlWidget.toolButton_X,self.controlWidget.toolButton_Y)
+
 
     def create_menu_XY(self,toolButton_X,toolButton_Y):
         #code inspired by an answer to https://stackoverflow.com/questions/34731826/keep-menu-open-after-clicking-on-the-button-it-is-launched-with
@@ -201,7 +228,8 @@ class PlotObject:
         self.graphWidget.clear()
         if len(self.y_index) == 0: #if len(self.y_index) == 0 then there are no quantities to plot on y axis. Thus, we don't do anything in this routine
             return
-        self.graphWidget.addLegend()
+        if self.show_legend:
+            self.graphWidget.addLegend()
 
         if self.x_index == -1:
             x = list(range(1,len(self._data)+1)) #if self.x_index=-1, then the data to use on x axis is the acquisition number. We build the x-data explicitly.
