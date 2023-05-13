@@ -334,7 +334,7 @@ class experiment(QtCore.QObject):
         self.sig_make_average_set_acquisition.emit(modality)
         self.logger.info(f"make_average_set_acquisitions set to {modality}.")
 
-    def read_current_data_from_all_instruments(self):
+    def read_current_data_from_all_instruments(self,timestamp):
         '''
         Look into all the instruments interfaces (defined via the key 'interface' in each dictionary of the list exp.instruments) 
         and it extracts data from each instrument. From each instrument, the data to exctract is contained in the dictionary exp.instruments[i]['interface'].output
@@ -343,6 +343,7 @@ class experiment(QtCore.QObject):
         self.logger.info(f"Reading data from all instruments...")
         for instrument in self.instruments:
             instruments_data = instrument['interface'].read_current_output()
+            instrument['interface'].receive_trigger(timestamp=timestamp)
             for data in instruments_data.values():
                 current_data.append(data)  
         return current_data
@@ -350,11 +351,12 @@ class experiment(QtCore.QObject):
     def store_current_data_from_all_instruments(self):
         '''
         '''
-        current_data = self.read_current_data_from_all_instruments() #Read the current data from all instruments
-        acq_numb = len(self.data) + 1 #Calculate the number of rows of self.data, add 1 for the new row
         now = datetime.datetime.now()
         time_string=now.strftime("%Y-%m-%d %H:%M:%S.%f")
         timestamp = datetime.datetime.timestamp(now)
+
+        current_data = self.read_current_data_from_all_instruments(timestamp=timestamp) #Read the current data from all instruments
+        acq_numb = len(self.data) + 1 #Calculate the number of rows of self.data, add 1 for the new row
         self.logger.info(f"[{time_string}] Acquisition #{acq_numb}")# {current_data}")
         current_data.insert(0, time_string)
         current_data.insert(0, timestamp )
