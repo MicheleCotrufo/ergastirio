@@ -11,6 +11,7 @@
 | Thorlabs | TC300 | Heater Temperature Controller | [pyThorlabsTC300](https://github.com/MicheleCotrufo/pyThorlabsTC300) | 
 | SRS | Models testes: SR865A, SR844, SR810 | Lock-in Amplifiers | [pySRSLockin](https://github.com/MicheleCotrufo/pySRSLockin) | 
 | Ocean Optics | Any model supported by [pyseabreeze (usb)](https://github.com/ap--/python-seabreeze) | Spectrometer| [pyOceanopticsSpectrometer](https://github.com/MicheleCotrufo/pyOceanopticsSpectrometer) | 
+| Photonc Etc. | LLTF Contrast | Tunable Spectral Filter | [pyPhotonLLTFContrast](https://github.com/MicheleCotrufo/pyPhotonLLTFContrast) |
 
 ## Installation of Ergastirio
 
