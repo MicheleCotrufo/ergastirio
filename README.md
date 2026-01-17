@@ -5,5 +5,5 @@
 ## List of Equipment currently supported by Ergastirio
 
 | Vendor | Model | Description | Package name  |
-| --- | --- | --- | 
+| --- | --- | --- | --- | 
 | Thorlabs |  PM100A, PM100D | Powermeter console | pyThorlabsPM100x | 
