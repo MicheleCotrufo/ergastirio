@@ -22,4 +22,4 @@ pip install ergastirio
 ```
 This will install ```ergastirio``` together with all required librariesspecified in the ```requirements.txt``` files.
 
-To test that the installation is succesful, run the command ```ergastirio``` from any command prompt. This will initialize the graphical interface for an empty experiment.
+To test that the installation is succesful, run the command ```ergastirio``` from any command prompt. This will load the GUI and initialize the experimental settings specified in the test file [config_default.json](https://github.com/MicheleCotrufo/ergastirio/blob/master/ergastirio/config_default.json). If the interfaces of the instruments specified in this .json file are not installed, Ergastirio will throw an error (red-colored text in the logging area), but the GUI should load normally.
