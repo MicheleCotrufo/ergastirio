@@ -11,6 +11,7 @@
 | Thorlabs | TC300 | Heater Temperature Controller | [pyThorlabsTC300](https://github.com/MicheleCotrufo/pyThorlabsTC300) | 
 | SRS | Models testes: SR865A, SR844, SR810 | Lock-in Amplifiers | [pySRSLockin](https://github.com/MicheleCotrufo/pySRSLockin) | 
 | Ocean Optics | Any model supported by [pyseabreeze (usb)](https://github.com/ap--/python-seabreeze) | Spectrometer| [pyOceanopticsSpectrometer](https://github.com/MicheleCotrufo/pyOceanopticsSpectrometer) | 
+| Photonc Etc. | LLTF Contrast | Tunable Spectral Filter | [pyPhotonLLTFContrast](https://github.com/MicheleCotrufo/pyPhotonLLTFContrast) |
 
 ## Installation of Ergastirio
 
@@ -28,6 +29,6 @@ To test that the installation is succesful, run the command ```ergastirio``` fro
 Each supported instrument has its own interface, which needs to be installed separately. Use the package manager pip to install,
 
 ```bash
-pip install package_name
+pip install package_name==version
 ```
-where ```package_name''' is specified in the table [here](#list-of-equipment-currently-supported-by-ergastirio). Each instrument interface might require additional steps for installation, refer to the package readme file.
+where ```package_name''' is specified in the table [here](#list-of-equipment-currently-supported-by-ergastirio). For some instrument interface, a reccomended version (```version''') might be specified in the corresponding readme file. Each instrument interface might require additional steps for installation, refer to the package readme file.
