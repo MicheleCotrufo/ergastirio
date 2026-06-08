@@ -85,9 +85,9 @@ class status_selector():
                 self.list_combo_ramps[index].currentIndexChanged.connect(lambda index_newvalue, index=index : self.change_combo_ChildRamp(index_newvalue, index_combobox=index))
         return self
 
-###########################################################################################################
-### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
-###########################################################################################################
+    ###########################################################################################################
+    ### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
+    ###########################################################################################################
 
     def on_list_instruments_updated(self, list_instruments):
         print(list_instruments)
@@ -103,7 +103,7 @@ class status_selector():
         combobox_items.append('None')
 
         self.list_combo_ramps = [] #this will contain the combobox for each row of the table
-#
+
         self.tableRamps.setRowCount(len(list_ramps)) 
         for index,ramp in enumerate(list_ramps):
             item0 = Qt.QTableWidgetItem(str(ramp[1]))
@@ -125,36 +125,36 @@ class status_selector():
         self.connect_widgets_events_to_functions()
 
 
-#######################
-### END Event Slots ###
-#######################
+    #######################
+    ### END Event Slots ###
+    #######################
 
-###################################################################################################################################################
-### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
-###################################################################################################################################################
+    ###################################################################################################################################################
+    ### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
+    ###################################################################################################################################################
 
-#    def change_combo_ChildRamp(self,index_newvalue,index_combobox):
-#        child_ramp_index = index_newvalue
-#        index_row = index_combobox
-#        if child_ramp_index ==  len(self.list_ramps): # This means that the value of the combobox is 'None'
-#            self.experiment.disconnect_ramp_from_child(self.list_ramps[index_row][0])
-#        else:
-#            self.experiment.connect_ramp_to_child(self.list_ramps[index_row][0],self.list_ramps[child_ramp_index][0])
-#        return
-
-
-#################################
-### END GUI Events Functions ####
-#################################
-
-############################################################################################################
-## END status_selector                                                                                     # 
-############################################################################################################
+    #    def change_combo_ChildRamp(self,index_newvalue,index_combobox):
+    #        child_ramp_index = index_newvalue
+    #        index_row = index_combobox
+    #        if child_ramp_index ==  len(self.list_ramps): # This means that the value of the combobox is 'None'
+    #            self.experiment.disconnect_ramp_from_child(self.list_ramps[index_row][0])
+    #        else:
+    #            self.experiment.connect_ramp_to_child(self.list_ramps[index_row][0],self.list_ramps[child_ramp_index][0])
+    #        return
 
 
-############################################################################################################
-## ramp_connection                                                                                         # 
-############################################################################################################
+    #################################
+    ### END GUI Events Functions ####
+    #################################
+
+    ############################################################################################################
+    ## END status_selector                                                                                     # 
+    ############################################################################################################
+
+
+    ############################################################################################################
+    ## ramp_connection                                                                                         # 
+    ############################################################################################################
 
 class ramp_connection():
 
@@ -223,9 +223,9 @@ class ramp_connection():
                 self.list_combo_ramps[index].currentIndexChanged.connect(lambda index_newvalue, index=index : self.change_combo_ChildRamp(index_newvalue, index_combobox=index))
         return self
 
-###########################################################################################################
-### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
-###########################################################################################################
+    ###########################################################################################################
+    ### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
+    ###########################################################################################################
 
     def on_list_ramps_updated(self,list_ramps):
         self.list_ramps = list_ramps #store for later use
@@ -238,7 +238,7 @@ class ramp_connection():
         combobox_items.append('None')
 
         self.list_combo_ramps = [] #this will contain the combobox for each row of the table
-#
+
         self.tableRamps.setRowCount(len(list_ramps)) 
         for index,ramp in enumerate(list_ramps):
             item0 = Qt.QTableWidgetItem(str(ramp[1]))
@@ -260,13 +260,13 @@ class ramp_connection():
         self.connect_widgets_events_to_functions()
 
 
-#######################
-### END Event Slots ###
-#######################
+    #######################
+    ### END Event Slots ###
+    #######################
 
-###################################################################################################################################################
-### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
-###################################################################################################################################################
+    ###################################################################################################################################################
+    ### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
+    ###################################################################################################################################################
 
     def change_combo_ChildRamp(self,index_newvalue,index_combobox):
         child_ramp_index = index_newvalue
@@ -278,17 +278,17 @@ class ramp_connection():
         return
 
 
-#################################
-### END GUI Events Functions ####
-#################################
+    #################################
+    ### END GUI Events Functions ####
+    #################################
 
-############################################################################################################
-## END ramp_connection                                                                                     # 
-############################################################################################################
+    ############################################################################################################
+    ## END ramp_connection                                                                                     # 
+    ############################################################################################################
 
-############################################################################################################
-## acquisition_control                                                                                     # 
-############################################################################################################
+    ############################################################################################################
+    ## acquisition_control                                                                                     # 
+    ############################################################################################################
 
 class acquisition_control():
 
@@ -377,7 +377,7 @@ class acquisition_control():
         self.widgets_box_acquisitionset = [] #This list will contain all widgets contained in box_acquisitionset
         self.widgets_box_acquisitionset_first_row = []
 
-###### POPULATE box_trigger
+    ###### POPULATE box_trigger
         ### Add a horizontal box inside box_trigger
         box_trigger_hbox = Qt.QHBoxLayout()
         box_trigger.setLayout(box_trigger_hbox)
@@ -472,7 +472,7 @@ class acquisition_control():
         self.buttongroup_trigger.addButton(self.radio_TriggerInternal)
         self.buttongroup_trigger.addButton(self.radio_TriggerExternal)
 
-###### POPULATE box_acquisitionset
+    ###### POPULATE box_acquisitionset
         ### Add a vertical box inside box_acquisitionset
         box_acquisitionset_vbox = Qt.QVBoxLayout()
         box_acquisitionset_vbox.setAlignment(QtCore.Qt.AlignCenter)
@@ -540,9 +540,9 @@ class acquisition_control():
         self.box_MakeAverage.stateChanged.connect(self.click_box_MakeAverage)
         return self
 
-###########################################################################################################
-### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
-###########################################################################################################
+    ###########################################################################################################
+    ### Event Slots. They are normally triggered by signals from the model, and change the GUI accordingly  ###
+    ###########################################################################################################
 
     def on_single_set_acquisition_change(self,status):
         if self.doing_triggered_acquisition == False: #If we are doing a triggered acquisition, we dont change anything in the GUI when a single set of acquisitions is either started or ended
@@ -612,13 +612,13 @@ class acquisition_control():
     def on_trigger_delay_changed(self,delay):
         self.edit_TriggerInstrumentDelay.setText(f"{delay}") 
 
-#######################
-### END Event Slots ###
-#######################
+    #######################
+    ### END Event Slots ###
+    #######################
 
-###################################################################################################################################################
-### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
-###################################################################################################################################################
+    ###################################################################################################################################################
+    ### GUI Events Functions. They are triggered by direct interaction with the GUI, and they call methods of the experiment (i.e. the model) object.###
+    ###################################################################################################################################################
 
     def click_button_StartPauseTriggeredAcquisition(self): 
         if(self.experiment.triggered_acquisition == False):
@@ -674,13 +674,13 @@ class acquisition_control():
             status_bool = False
         self.experiment.make_average_set_acquisitions = status_bool
 
-#################################
-### END GUI Events Functions ####
-#################################
+    #################################
+    ### END GUI Events Functions ####
+    #################################
 
-############################################################################################################
-## END acquisition_control                                                                                 # 
-############################################################################################################
+    ############################################################################################################
+    ## END acquisition_control                                                                                 # 
+    ############################################################################################################
 
 
 

@@ -1,5 +1,5 @@
 '''
-This module contains several self-contained functions for general purposes
+This module contains several general-purpose functions
 '''
 
 def disable_widget(widgets):

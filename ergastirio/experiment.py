@@ -7,6 +7,7 @@ import ergastirio.utils
 import os
 import json
 import abstract_instrument_interface
+
 ## We follow as much as possible the model-view-controller paradigm. The class experiment() defines a model. The model emits signals (defined as QtCore.pyqtSignal object) 
 # to let the different parts of the GUI know what is happening
 
@@ -148,7 +149,7 @@ class experiment(QtCore.QObject):
             with open(config_file) as jsonfile:
                 self.settings = json.load(jsonfile)
         except Exception as e:
-            self.logger.error(f"An error occurred while loading default settings from  {config_file}. Fix the error and restart this application\n: {e}")
+            self.logger.error(f"An error occurred while loading default settings from {config_file}. Fix the error and restart this application\n: {e}")
 
     def initiate(self, config_file, func_logger_handler_adder = None, **kwargs):
         if ('virtual' in kwargs.keys()) and (kwargs['virtual'] == True):

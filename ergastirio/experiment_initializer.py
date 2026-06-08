@@ -22,9 +22,6 @@ def set_up_experiment(exp):
     if not load_instruments(exp):       #Load all instruments based on the strings specified in the list exp.settings['Instruments_Settings']
         return False
 
-    #if not load_all_ramps(exp):         #Check which instrument has a ramp object
-    #    return False
-
     if not generate_data_headers(exp):  #Based on the loaded instruments, and on the data created by each instrument, it populates the list of strings exp.data_headers
         return False
 
