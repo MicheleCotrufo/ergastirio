@@ -97,11 +97,11 @@ class MainWindow(Qt.QMainWindow):
                }
     _default_view = 'View 4'
     #This dictionary will be used to create the subwindows of the mdi, and also to populate the "View" menu
-    _mdi_basic_panels ={  'logging':{'title':'Logging'},
-                    'tabledata':{'title':'Data acquisition'},
-                    'instruments':{'title':'Instruments'},
-                    'plots':{'title':'Plots'}
-                      }
+    _mdi_basic_panels = {   'logging':{'title':'Logging'},
+                            'tabledata':{'title':'Data acquisition'},
+                            'instruments':{'title':'Instruments'},
+                            'plots':{'title':'Plots'}
+                        }
     _mdi_advanced_panels ={ 'connect_ramps':{'title':'Connect Ramps'},
                            'status_selector':{'title':'Status Selector'}
     }

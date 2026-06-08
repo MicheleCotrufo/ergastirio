@@ -19,6 +19,7 @@ class experiment(QtCore.QObject):
     ----------
     Data
         instance of ergastirio.classes.EnhancedList
+
     verbose
         Defined as a @property. Can be set.
     
@@ -122,7 +123,7 @@ class experiment(QtCore.QObject):
         # app           = The pyqt5 QApplication() object
         # name_logger   = The name of the logger used for this particular experiment. If none is specified, the name of the package (i.e. ergastirio) is used as logger name
 
-        QtCore.QObject.__init__(self)
+        QtCore.QObject.__init__(self) # Need to call this to be able to use signals/slots
         self.app = app
 
         self.name_logger = name_logger #Setting this property will also create the logger,set output style, connect the logger output to the logging textarea and store the logger object in self.logger (see @name_logger.setter) 
@@ -191,7 +192,7 @@ class experiment(QtCore.QObject):
     def fire_all_signals(self):
         """
         Fire all signals, communicating the current value of several parameters. This function is typically called from the GUI of the experiment after the GUI has been partially
-        initiallized. By making the experiment object fire all its parameters, the GUI can properly populate all of its field
+        initiallized. By making the experiment object fire all its parameters, the GUI can properly populate all of its fields
         """
         self.sig_time_interval_internal_trigger.emit(self.settings["General_Settings"]['time_interval_internal_trigger'])
         self.sig_time_interval_multiple_acquisitions_per_set.emit(self.settings["General_Settings"]['time_interval_multiple_acquisitions_per_set'])
@@ -350,6 +351,7 @@ class experiment(QtCore.QObject):
 
     def store_current_data_from_all_instruments(self):
         '''
+        Read all current data from all instruments. Create an array with all data, and attach time_string and timestamp in front of it. Add array as a new row to the self.data table
         '''
         now = datetime.datetime.now()
         time_string=now.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -371,18 +373,23 @@ class experiment(QtCore.QObject):
         self.sig_data_updated_added_new_rows.emit(1)
 
     def start_single_set_acquisitions(self):
-        self.single_set_acquisition = True
+        '''
+            Starts a single set of acquistion, by calling the function _single_set_of_acquisitions. Each set might have more than one acquisition. 
+            The number of acquisitions is specified by self.settings["General_Settings"]['numb_acquisitions_per_set'], and they are separated by 
+            a time interval specified by self.settings["General_Settings"]['time_interval_multiple_acquisitions_per_set'] (in seconds).
+        '''
+        self.single_set_acquisition = True #As long as this variable is true, the 'single set of acquisition' will be done completely
         self.sig_single_set_acquisition.emit(self.SIG_SINGLE_SET_ACQUISITION_STARTED)
         self.logger.info(f"Starting acquisition set...")
         self._single_set_of_acquisitions(counter=self.settings["General_Settings"]['numb_acquisitions_per_set'], time_interval=self.settings["General_Settings"]['time_interval_multiple_acquisitions_per_set'])
 
     def stop_single_set_acquisitions(self):
-        self.single_set_acquisition = False
+        self.single_set_acquisition = False #By setting this to false, the current set of acquisition is stopped immediately (see if block in function _single_set_of_acquisitions)
         self.sig_single_set_acquisition.emit(self.SIG_SINGLE_SET_ACQUISITION_ENDED)
         self.logger.info(f"Acquisition set stopped by user.")
 
     def _single_set_of_acquisitions(self,counter,time_interval):
-        ''' Takes a single set of acquisitions. The number of acquisitions is  specified by the input counter, and they are separated by 
+        ''' Takes a single set of acquisitions. The number of acquisitions is specified by the input variable 'counter', and they are separated by 
             a time interval specified by time_interval (in seconds).
 
             This function calls the function take_single_acquisition() and then calls itself after a time specified by self.settings['General_Settings']['time_interval_multiple_acquisitions_per_set'], 
@@ -401,7 +408,7 @@ class experiment(QtCore.QObject):
                 self.logger.info(f"Averaging the last {self.settings['General_Settings']['numb_acquisitions_per_set']} acquisitions...")
                 self.make_average_last_acquisitions(N=self.settings['General_Settings']['numb_acquisitions_per_set'])
 
-    def take_single_set_acquisition(self):
+    def take_single_set_acquisition(self): #Note: name of this function is misleading, should be renamed "take_single_acquisition"
         self.store_current_data_from_all_instruments()
 
     def make_average_last_acquisitions(self,N):
@@ -490,7 +497,7 @@ class experiment(QtCore.QObject):
 
     def find_id_and_name_of_instrument(self,instrument):
         '''
-        the input argument instrument can be either a number (indicating the position of the instrument in the list of instruments) or the full name of the instrument
+        The input argument instrument can be either a number (indicating the position of the instrument in the list of instruments) or the full name of the instrument
         '''
         if isinstance(instrument,str):
             list_instruments = [inst['fullname'] for inst in self.instruments]

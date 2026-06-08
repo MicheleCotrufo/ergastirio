@@ -1,6 +1,6 @@
 '''
 This module contains several function which are used to initialize a certain experiment. 
-Before using the functions in this module, an experiment() object needs to be created (typically by the main.pyw file), and a config file needs to be assigned to 
+Before using the functions in this module, an experiment() object needs to be created (typically by the main.py file), and a config file needs to be assigned to 
 the experiment. After a config file have been assigned to the experiment, the function load_config_and_setup_exp(exp) is called, where exp is the experiment() object.
 '''
 import PyQt5.QtWidgets as Qt# QApplication, QWidget, QMainWindow, QPushButton, QHBoxLayout
