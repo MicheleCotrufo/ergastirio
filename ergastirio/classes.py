@@ -30,6 +30,7 @@ class EnhancedList(list):
     '''
 
     def __init__(self,  *args):
+        super().__init__(*args)   # Fix suggested by Claude -> Need to double check it
         self.linked_objects = []
 
     def add_syncronized_objects(self,list_objects):

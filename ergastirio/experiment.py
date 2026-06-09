@@ -506,7 +506,7 @@ class experiment(QtCore.QObject):
                 self.logger.error(f"{instrument} is not a valid instrument name")
                 return False
             else:
-                instrument_index = list_instruments.index(inst)
+                instrument_index = list_instruments.index(instrument)
                 instrument_name = instrument
         elif isinstance(instrument,int):
             if not(instrument in range(len(self.instruments))):
@@ -592,8 +592,8 @@ class experiment(QtCore.QObject):
                 row = 'Last'
             self.logger.info(f"{row} row has been removed from data.")
             self.sig_data_updated_deleted_last_rows.emit(1)
-        except:
-            pass
+        except Exception as e:
+            self.logger.error(f"An error occurred while deleting one row from the data:\n {e}")
 
     def save_stored_data(self,filename):
         '''

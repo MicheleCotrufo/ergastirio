@@ -36,7 +36,7 @@ def check_list_is_valid_formula(formula,valid_variable_names):
                 msg = "One of the elements ('" + elem + "') of the list is neither a valid data name (in the format dev#.DataName) nor a valid mathematical operation ('+', '-', '*', '/')"
                 break
         elif isinstance(elem, list):
-            msg, flag = CheckListIsValidFormula(elem,valid_variable_names)
+            msg, flag = check_list_is_valid_formula(elem,valid_variable_names)
         else:
             flag = 0
             msg = 'One of the elements of the list is neither a string nor a list'

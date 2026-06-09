@@ -12,6 +12,7 @@ import importlib
 #from importlib.metadata import version  
 import json
 import ergastirio.utils
+import ergastirio.classes
  
 def set_up_experiment(exp):
     '''
