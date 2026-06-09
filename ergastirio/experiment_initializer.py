@@ -69,7 +69,7 @@ def load_instruments(exp):
             config_dict=None
             if len(exp.settings["Instruments_Settings"]["settings_each_instrument"]) > i:
                 config_dict=exp.settings["Instruments_Settings"]["settings_each_instrument"][i]
-                if isinstance(exp.settings["Instruments_Settings"]["settings_each_instrument"][i],dict):
+                if isinstance(config_dict,dict):
                     exp.logger.info(f"Found settings for this interface in the file {exp.config_file}.")
                 else:
                     config_dict = None    
