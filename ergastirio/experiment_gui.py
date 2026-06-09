@@ -62,7 +62,7 @@ class experiment_gui():
 
     def create_gui_instruments(self):
         '''
-        Create GUIs for all loaded instruments, and for the acquisition control panel
+        Create GUIs for all loaded instruments
 
         container
             QWidget which will contain the GUIs
